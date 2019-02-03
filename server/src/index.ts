@@ -6,6 +6,8 @@ import resolvers from './data/resolvers'
 import { getUserFromToken } from './auth'
 import authRoutes from './auth/routes'
 
+require('dotenv').config()
+
 const server = new ApolloServer({
   typeDefs,
   resolvers,

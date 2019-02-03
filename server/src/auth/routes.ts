@@ -23,6 +23,8 @@ auth.post('/register', async (req, res) => {
   })
 })
 
+// test login: helvetici, coolpassword420
+
 auth.post('/login', async (req, res) => {
   const user: any = await User.findOne({ username: req.body.username })
   if (user) {
