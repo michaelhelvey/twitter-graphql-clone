@@ -15,11 +15,15 @@ auth.post('/register', async (req, res) => {
     password: hashedPassword,
   })
   const token = jwt.sign({ id: user._id }, config.secret, {
-    expiresIn: 86400,
+    expiresIn: process.env.TOKEN_EXPIRATION,
+  })
+  const refreshToken = jwt.sign({ id: user._id }, config.secret, {
+    expiresIn: process.env.REFRESH_TOKEN_EXPIRATION,
   })
   res.json({
     auth: true,
     token,
+    refreshToken,
   })
 })
 
@@ -34,10 +38,16 @@ auth.post('/login', async (req, res) => {
     )
     if (isAuthenticated) {
       // create jwt
-      const token = jwt.sign({ id: user._id }, config.secret)
+      const token = jwt.sign({ id: user._id }, config.secret, {
+        expiresIn: process.env.TOKEN_EXPIRATION,
+      })
+      const refreshToken = jwt.sign({ id: user._id }, config.secret, {
+        expiresIn: process.env.REFRESH_TOKEN_EXPIRATION,
+      })
       res.json({
         auth: true,
         token,
+        refreshToken,
       })
     } else {
       res.status(401).json({
