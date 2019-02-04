@@ -6098,10 +6098,11 @@ table {
   z-index: auto;
 }
 
+html,
 body {
   margin: 0;
   padding: 0;
-  font-family: sans-serif;
+  height: 100%;
 }
 
 @media (min-width: 576px) {
