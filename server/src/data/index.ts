@@ -1,6 +1,12 @@
 import * as Types from './db'
 import { Document } from 'mongoose'
 
+export const getTweetById = async (tweetId: String) => {
+  const tweet = await Types.Tweet.findById(tweetId).populate('author')
+
+  return tweet
+}
+
 export const getHomeTweets = async (user: any) => {
   // for now, just get a list of tweets ordered by created_at
   // from the users's followers

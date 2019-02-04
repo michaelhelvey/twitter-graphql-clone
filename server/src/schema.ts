@@ -44,6 +44,7 @@ export default gql`
 
   type Query {
     homeTweets: [Tweet]
+    tweet(tweetId: ID!): Tweet
     tweetsForUser(userId: ID!): [Tweet]
   }
 

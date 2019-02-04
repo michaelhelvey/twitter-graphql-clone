@@ -9,6 +9,7 @@ import {
   unlikeTweet,
   updateProfile,
   getHomeTweets,
+  getTweetById,
 } from '../data'
 
 export default {
@@ -16,6 +17,8 @@ export default {
   Query: {
     homeTweets: async (_: any, args: any, context: any) =>
       getHomeTweets(context.user),
+    tweet: async (_: any, args: any, context: any) =>
+      getTweetById(args.tweetId),
     tweetsForUser: () => [],
   },
   Mutation: {
