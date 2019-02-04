@@ -4,7 +4,9 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "dev": "tsc -p . && node build/index.js"
+    "serve:watch": "./node_modules/.bin/nodemon build/index.js",
+    "build:watch": "tsc -p . --watch",
+    "dev": "concurrently \"yarn build:watch \" \"yarn serve:watch\""
   },
   "dependencies": {
     "@types/bcrypt": "^3.0.0",
@@ -24,7 +26,9 @@
     "@types/jsonwebtoken": "^8.3.0",
     "@types/mongodb": "^3.1.17",
     "@types/mongoose": "^5.3.5",
+    "concurrently": "^4.1.0",
     "dotenv": "^6.2.0",
+    "nodemon": "^1.18.9",
     "tslint": "^5.12.0",
     "typescript": "^3.2.2"
   }
