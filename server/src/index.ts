@@ -1,6 +1,7 @@
 import { ApolloServer } from 'apollo-server-express'
-import express from 'express'
+import express, { Request } from 'express'
 import bodyParser from 'body-parser'
+import cors from 'cors'
 import typeDefs from './schema'
 import resolvers from './data/resolvers'
 import { getUserFromToken } from './auth'
@@ -32,8 +33,22 @@ const server = new ApolloServer({
 })
 
 const app = express()
-server.applyMiddleware({ app })
+
+const whitelist = ['http://localhost:3000']
+const corsOptions = {
+  origin: function(origin: any, callback: any) {
+    if (whitelist.indexOf(origin) !== -1 || !origin) {
+      callback(null, true)
+    } else {
+      callback(new Error('Not allowed by CORS'))
+    }
+  },
+}
+
+app.use(cors(corsOptions))
 app.use(bodyParser.json())
+
+server.applyMiddleware({ app })
 
 // register REST routes for managing users and auth tokens
 // since we manage authorization outside of GraphQL

@@ -6,7 +6,6 @@ import config from './config'
 import { getUserFromToken } from './index'
 
 const auth = Router()
-export default auth
 
 auth.post('/register', async (req, res) => {
   const hashedPassword = bcrypt.hashSync(req.body.password, 8)
@@ -30,6 +29,7 @@ auth.post('/register', async (req, res) => {
 // test login: helvetici, coolpassword420
 
 auth.post('/login', async (req, res) => {
+  console.dir(req.body)
   const user: any = await User.findOne({ username: req.body.username })
   if (user) {
     const isAuthenticated = await bcrypt.compare(
@@ -56,7 +56,7 @@ auth.post('/login', async (req, res) => {
     }
   } else {
     res
-      .status(404)
+      .status(401)
       .json({ message: `User with username ${req.body.username} not found` })
   }
 })
@@ -70,3 +70,5 @@ auth.get('/me', async (req, res) => {
     res.status(404).json({ message: 'User not found from token' })
   }
 })
+
+export default auth

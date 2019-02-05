@@ -1,11 +1,12 @@
 import * as React from 'react'
+import { post } from '../utils/api'
 
 interface ILoginState {
   username: string
   password: string
 }
 
-export default class LoginPage extends React.Component<any, any> {
+export default class LoginPage extends React.Component<any, ILoginState> {
   constructor(props: any) {
     super(props)
 
@@ -13,6 +14,8 @@ export default class LoginPage extends React.Component<any, any> {
       username: '',
       password: '',
     }
+
+    this.sendLoginForm = this.sendLoginForm.bind(this)
   }
 
   public render() {
@@ -39,6 +42,7 @@ export default class LoginPage extends React.Component<any, any> {
             </div>
             <button
               type="submit"
+              onClick={this.sendLoginForm}
               className="bg-blue rounded-full font-bold text-white py-3 my-6"
             >
               Login
@@ -58,8 +62,20 @@ export default class LoginPage extends React.Component<any, any> {
     )
   }
 
+  private async sendLoginForm(e: any) {
+    e.preventDefault()
+    const { username, password } = this.state
+    const response = await post('/auth/login', {
+      username,
+      password,
+    })
+    const json = await response.json()
+    console.log(json)
+  }
+
   private updateForm(key: string, value: any) {
-    this.setState((state: ILoginState) => ({
+    this.setState(state => ({
+      ...state,
       [key]: value,
     }))
   }

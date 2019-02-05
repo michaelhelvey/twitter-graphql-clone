@@ -11,7 +11,8 @@
     "object-literal-sort-keys": false,
     "jsx-no-lambda": false,
     "ordered-imports": false,
-    "jsx-boolean-value": false
+    "jsx-boolean-value": false,
+    "no-console": false
   },
   "jsRules": {
     "object-literal-sort-keys": false //Disable for javascript
