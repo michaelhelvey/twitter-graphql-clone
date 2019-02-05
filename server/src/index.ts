@@ -1,6 +1,5 @@
 import { ApolloServer } from 'apollo-server-express'
-import express, { Request } from 'express'
-import bodyParser from 'body-parser'
+import express from 'express'
 import cors from 'cors'
 import typeDefs from './schema'
 import resolvers from './data/resolvers'
@@ -46,7 +45,7 @@ const corsOptions = {
 }
 
 app.use(cors(corsOptions))
-app.use(bodyParser.json())
+app.use(express.json())
 
 server.applyMiddleware({ app })
 

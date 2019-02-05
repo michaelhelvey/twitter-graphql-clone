@@ -24,6 +24,8 @@ export const post = async (
           Authorization: `${auth}`,
           'Content-Type': 'application/json',
         }
-      : {},
+      : {
+          'Content-Type': 'application/json',
+        },
   })
 }
