@@ -25,3 +25,15 @@ export const store = async (token: string, refreshToken: string) => {
   Storage.setItem(Storage.REFRESH_TOKEN_KEY, refreshToken)
   return [token, refreshToken]
 }
+
+export const isLoggedIn = () => {
+  const hasToken = !!Storage.getItem(Storage.AUTH_TOKEN_KEY)
+  const hasRefreshToken = !!Storage.getItem(Storage.REFRESH_TOKEN_KEY)
+
+  return hasToken && hasRefreshToken
+}
+
+export const logout = () => {
+  Storage.removeItem(Storage.AUTH_TOKEN_KEY)
+  Storage.removeItem(Storage.REFRESH_TOKEN_KEY)
+}

@@ -1,5 +1,6 @@
 import * as React from 'react'
 import * as Auth from '../services/auth'
+import * as Nav from '../services/navigation'
 
 interface ILoginState {
   username: string
@@ -51,7 +52,7 @@ export default class LoginPage extends React.Component<any, ILoginState> {
             <button
               type="submit"
               onClick={this.sendLoginForm}
-              className="bg-blue rounded-full font-bold text-white py-3 my-6"
+              className="bg-blue rounded-full font-bold text-white py-3 my-6 focus:outline-none hover:bg-blue-dark"
             >
               Login
             </button>
@@ -79,6 +80,7 @@ export default class LoginPage extends React.Component<any, ILoginState> {
       this.setState(state => ({ ...state, errorMessage: '' }))
       await Auth.store(json.token!, json.refreshToken!)
       // route them
+      Nav.routeTo('/')
     } else {
       this.setState(state => ({
         ...state,
