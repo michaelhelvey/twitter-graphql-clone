@@ -50,13 +50,17 @@ auth.post('/login', async (req, res) => {
       })
     } else {
       res.status(401).json({
+        auth: false,
         message: 'Username/password combination invalid',
       })
     }
   } else {
     res
       .status(401)
-      .json({ message: `User with username ${req.body.username} not found` })
+      .json({
+        auth: false,
+        message: `User with username ${req.body.username} not found`,
+      })
   }
 })
 

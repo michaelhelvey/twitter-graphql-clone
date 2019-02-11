@@ -1,9 +1,10 @@
 import * as React from 'react'
-import { post } from '../utils/api'
+import * as Auth from '../services/auth'
 
 interface ILoginState {
   username: string
   password: string
+  errorMessage: string
 }
 
 export default class LoginPage extends React.Component<any, ILoginState> {
@@ -13,6 +14,7 @@ export default class LoginPage extends React.Component<any, ILoginState> {
     this.state = {
       username: '',
       password: '',
+      errorMessage: '',
     }
 
     this.sendLoginForm = this.sendLoginForm.bind(this)
@@ -24,11 +26,17 @@ export default class LoginPage extends React.Component<any, ILoginState> {
         <div className="container mx-auto lg:w-1/3 md:w-1/2 w-full py-8 flex flex-col justify-start items-center">
           <h1 className="font-bold text-xl text-white">Log Into Tweeter</h1>
           <form className="w-full px-6 my-8 flex flex-col">
+            {this.state.errorMessage.length ? (
+              <div className="p-3 bg-red-darkest rounded shadow-sm text-grey-light text-sm font-bold">
+                {this.state.errorMessage}
+              </div>
+            ) : null}
             <div className="flex flex-col text-white py-4">
               <input
                 type="text"
+                autoFocus
                 placeholder={'Username'}
-                className="rounded px-2 py-4 shadow-sm text-base outline-none  "
+                className="rounded p-4 shadow-sm text-base outline-none  "
                 onChange={e => this.updateForm('username', e.target.value)}
               />
             </div>
@@ -36,7 +44,7 @@ export default class LoginPage extends React.Component<any, ILoginState> {
               <input
                 type="password"
                 placeholder={'Password'}
-                className="rounded px-2 py-4 shadow-sm text-base outline-none  "
+                className="rounded p-4 shadow-sm text-base outline-none  "
                 onChange={e => this.updateForm('password', e.target.value)}
               />
             </div>
@@ -65,12 +73,18 @@ export default class LoginPage extends React.Component<any, ILoginState> {
   private async sendLoginForm(e: any) {
     e.preventDefault()
     const { username, password } = this.state
-    const response = await post('/auth/login', {
-      username,
-      password,
-    })
-    const json = await response.json()
-    console.log(json)
+    const json = await Auth.login(username, password)
+    if (json.auth) {
+      // log the user in
+      this.setState(state => ({ ...state, errorMessage: '' }))
+      await Auth.store(json.token!, json.refreshToken!)
+      // route them
+    } else {
+      this.setState(state => ({
+        ...state,
+        errorMessage: json.message!,
+      }))
+    }
   }
 
   private updateForm(key: string, value: any) {
