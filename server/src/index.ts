@@ -22,10 +22,8 @@ const server = new ApolloServer({
       // add the user to the context
       return { user }
     } catch (e) {
-      // throw an error from our graphql server if there isn't a user.
-      // this should never happen if our middleware is working correctly in the rest
-      // of the app, but it's good to not make too many demands on the rest
-      // of the system.
+      // if there isn't a user, they shouldn't be able to access the graphql
+      // api at all.
       throw new Error('Unauthorized')
     }
   },
