@@ -1,15 +1,16 @@
 {
-  "name": "client-new",
+  "name": "twitter-client",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "react": "^16.8.3",
-    "react-dom": "^16.8.3",
     "apollo-boost": "^0.1.23",
     "apollo-link-context": "^1.0.14",
+    "apollo-link-retry": "^2.2.10",
     "concurrently": "^4.1.0",
     "graphql": "^14.1.1",
+    "react": "^16.8.3",
     "react-apollo": "^2.3.3",
+    "react-dom": "^16.8.3",
     "react-icons": "^3.2.2",
     "react-router-dom": "^4.3.1"
   },
@@ -20,13 +21,13 @@
     "@types/react": "16.8.6",
     "@types/react-dom": "16.8.2",
     "@types/react-router-dom": "^4.3.1",
-    "react-scripts": "2.1.5",
-    "typescript": "3.3.3333",
     "autoprefixer": "^9.4.3",
     "postcss-cli": "^6.1.0",
     "postcss-import": "^12.0.1",
     "postcss-preset-env": "^6.5.0",
-    "tailwindcss": "^0.7.3"
+    "react-scripts": "2.1.5",
+    "tailwindcss": "^0.7.3",
+    "typescript": "3.3.3333"
   },
   "scripts": {
     "start": "react-scripts start",

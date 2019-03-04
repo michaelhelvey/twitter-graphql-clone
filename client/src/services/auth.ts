@@ -1,8 +1,11 @@
 import * as Storage from '../utils/storage'
 import { post } from '../utils/http'
 
-export interface ILoginRequestResponse {
+export interface ITokenRequestResponse {
   token?: string
+}
+
+export interface ILoginRequestResponse extends ITokenRequestResponse {
   refreshToken?: string
   auth: boolean
   message?: string
@@ -20,9 +23,21 @@ export const login = async (
   return json
 }
 
-export const store = async (token: string, refreshToken: string) => {
+export const refreshToken = async (
+  refreshToken: string
+): Promise<ITokenRequestResponse> => {
+  const response = await post('/auth/refresh', {
+    refresh_token: refreshToken,
+  })
+  const json = await response.json()
+  return json
+}
+
+export const store = async (token: string, refreshToken?: string) => {
   Storage.setItem(Storage.AUTH_TOKEN_KEY, token)
-  Storage.setItem(Storage.REFRESH_TOKEN_KEY, refreshToken)
+  if (refreshToken) {
+    Storage.setItem(Storage.REFRESH_TOKEN_KEY, refreshToken)
+  }
   return [token, refreshToken]
 }
 

@@ -1,4 +1,4 @@
-import { ApolloServer } from 'apollo-server-express'
+import { ApolloServer, AuthenticationError } from 'apollo-server-express'
 import express from 'express'
 import cors from 'cors'
 import typeDefs from './schema'
@@ -8,6 +8,10 @@ import authRoutes from './auth/routes'
 
 require('dotenv').config()
 
+const throwUnauthorized = () => {
+  throw new AuthenticationError('Unauthorized')
+}
+
 const server = new ApolloServer({
   typeDefs,
   resolvers,
@@ -15,6 +19,9 @@ const server = new ApolloServer({
     const req = context.req
     // get the user token from the headers
     const token = req.get('Authorization') || ''
+    if (!token) {
+      return throwUnauthorized()
+    }
 
     // get user from jwt
     try {
@@ -24,7 +31,7 @@ const server = new ApolloServer({
     } catch (e) {
       // if there isn't a user, they shouldn't be able to access the graphql
       // api at all.
-      throw new Error('Unauthorized')
+      return throwUnauthorized()
     }
   },
 })
